@@ -12,9 +12,13 @@ public class AviaSoulsTest {
 
         Ticket[] tickets = manager.search("Moscow", "Kazan");
 
-        assertEquals(3000, tickets[0].getPrice());
-        assertEquals(5000, tickets[1].getPrice());
-        assertEquals(7000, tickets[2].getPrice());
+        // Используем assertArrayEquals для проверки массива
+        Ticket[] expected = {
+                new Ticket("Moscow", "Kazan", 3000, 1100, 1300),
+                new Ticket("Moscow", "Kazan", 5000, 1000, 1200),
+                new Ticket("Moscow", "Kazan", 7000, 900, 1130)
+        };
+        assertArrayEquals(expected, tickets);
     }
 
     @Test
@@ -28,9 +32,13 @@ public class AviaSoulsTest {
         TicketTimeComparator comparator = new TicketTimeComparator();
         Ticket[] tickets = manager.searchAndSortBy("SPb", "Novgorod", comparator);
 
-        assertEquals(200, tickets[0].getTimeTo() - tickets[0].getTimeFrom());
-        assertEquals(210, tickets[1].getTimeTo() - tickets[1].getTimeFrom());
-        assertEquals(230, tickets[2].getTimeTo() - tickets[2].getTimeFrom());
+        // Проверяем порядок по длительности полёта
+        Ticket[] expected = {
+                new Ticket("SPb", "Novgorod", 4000, 800, 1000),
+                new Ticket("SPb", "Novgorod", 6000, 900, 1110),
+                new Ticket("SPb", "Novgorod", 5000, 700, 930)
+        };
+        assertArrayEquals(expected, tickets);
     }
 
     @Test
